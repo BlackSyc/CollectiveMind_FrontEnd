@@ -1,0 +1,11 @@
+<nz-input-group nzSearch nzSize="large" [nzAddOnAfter]="suffixButton" class="inputField">
+    <input type="text" nz-input placeholder="Find a statement by typing keywords here..." />
+</nz-input-group>
+<ng-template #suffixButton>
+  <button nz-button nzType="primary" nzSize="large" nzSearch>Search</button>
+</ng-template>
+
+<nz-divider></nz-divider>
+
+<statement-list>
+</statement-list>
