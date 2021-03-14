@@ -1,1 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+.ant-card-hoverable:hover {
+  border-color: #177DDC;
+  box-shadow: 0px 0px 10px 3px #1f1f1f;
+  opacity: 1;
+}
+
+.ant-card-hoverable{
+  opacity: .5;
+}

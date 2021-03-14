@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {IStatement} from "../../collective-mind-api-clients";
 
 @Component({
   selector: 'statement-list',
@@ -7,11 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListComponent implements OnInit {
 
-  public items:string[] = [];
+  @Input() items:IStatement[] = [];
+  @Output() onCreateNew: EventEmitter<void> = new EventEmitter<void>();
   constructor() { }
 
   ngOnInit(): void {
-    this.items = ["truus", "jantje", "enzo"];
   }
 
 }

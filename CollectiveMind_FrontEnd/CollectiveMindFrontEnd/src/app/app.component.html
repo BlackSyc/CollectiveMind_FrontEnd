@@ -6,17 +6,15 @@
     </a>
     <div style="float: left;"><h2>The Collective Mind</h2></div>
     <ul nz-menu nzTheme="dark" nzMode="horizontal" class="float-right">
-      <li nz-menu-item style="color: #90ee90cc">What is The Collective Mind?</li>
-      <li nz-menu-item>Home</li>
-      <li nz-menu-item>Dashboard</li>
-      <li nz-menu-item>Account</li>
+      <li nz-menu-item routerLink="/about" nzMatchRouter style="color: #90ee90cc">What is The Collective Mind?</li>
+      <li nz-menu-item routerLink="/home" nzMatchRouter>Home</li>
+      <li nz-menu-item routerLink="/dashboard" nzMatchRouter>Dashboard</li>
+      <li nz-menu-item routerLink="/account" nzMatchRouter>Account</li>
       <li nz-menu-item>Log out</li>
     </ul>
   </nz-header>
   <nz-content class="content">
-    <div class="inner-content">
-      <statement-home style="width: 100%"></statement-home>
-    </div>
+      <router-outlet></router-outlet>
   </nz-content>
-  <nz-footer>Collective Mind 2021</nz-footer>
+  <nz-footer style="opacity: .5">Collective Mind 2021</nz-footer>
 </nz-layout>
