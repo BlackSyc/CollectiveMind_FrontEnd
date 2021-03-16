@@ -21,12 +21,12 @@
 
 <div nz-row style="width: 100%; height: 200px;" nzJustify="space-around" nzAlign="top">
   <nz-col nzSpan="10">
-    <button nz-tooltip="Add statement" nz-button nzType="default" nzSize="large" style="margin-left: -50px; position: absolute; top: 0; left: 0"><i nz-icon nzType="plus" nzTheme="outline"></i></button>
+    <button nz-tooltip="Add statement" nz-button nzType="default" nzSize="large" style="margin-left: -50px; position: absolute; top: 0; left: 0" (click)="createNegativeArgument()"><i nz-icon nzType="plus" nzTheme="outline"></i></button>
     <statement-list [items]="negativeArguments"></statement-list>
   </nz-col>
 
   <nz-col nzSpan="10">
-    <button nz-tooltip="Add statement" nz-button nzType="default" nzSize="large" style="margin-left: -50px; position: absolute; top: 0; left: 0"><i nz-icon nzType="plus" nzTheme="outline"></i></button>
+    <button nz-tooltip="Add statement" nz-button nzType="default" nzSize="large" style="margin-left: -50px; position: absolute; top: 0; left: 0" (click)="createPositiveArgument()"><i nz-icon nzType="plus" nzTheme="outline"></i></button>
     <statement-list [items]="positiveArguments"></statement-list>
   </nz-col>
 </div>

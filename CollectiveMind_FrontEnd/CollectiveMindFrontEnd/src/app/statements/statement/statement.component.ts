@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {IStatement, NegativeClient, PositiveClient, StatementClient} from "../../collective-mind-api-clients";
 import {ActivatedRoute, Router} from "@angular/router";
+import {NzModalService} from "ng-zorro-antd/modal";
+import {WizardComponent} from "../wizard/wizard.component";
 
 @Component({
   selector: 'app-statement',
@@ -21,7 +23,8 @@ export class StatementComponent implements OnInit {
               private router: Router,
               private statementClient: StatementClient,
               private negativeArgumentsClient: NegativeClient,
-              private positiveArgumentsClient: PositiveClient) {
+              private positiveArgumentsClient: PositiveClient,
+              private modalService: NzModalService) {
 
     this.activatedRoute.params.subscribe(x => this.refresh(x.id))
   }
@@ -51,4 +54,29 @@ export class StatementComponent implements OnInit {
     }
   }
 
+  createPositiveArgument() {
+    this.modalService.create({
+      nzWidth: 1200,
+      nzIconType: 'book',
+      nzTitle: 'New negative argument',
+      nzContent: WizardComponent,
+      nzComponentParams: { },
+      nzOnOk: (x) => {
+        this.positiveArguments.unshift(x.getStatement());
+      },
+    });
+  }
+
+  createNegativeArgument(){
+    this.modalService.create({
+      nzWidth: 1200,
+      nzIconType: 'book',
+      nzTitle: 'New positive argument',
+      nzContent: WizardComponent,
+      nzComponentParams: { },
+      nzOnOk: (x) => {
+        this.negativeArguments.unshift(x.getStatement());
+      }
+    });
+  }
 }

@@ -33,6 +33,8 @@ import { AccountComponent } from './account/account.component';
 import { AboutComponent } from './about/about.component';
 import {NzIconModule} from "ng-zorro-antd/icon";
 import {NzEmptyModule} from "ng-zorro-antd/empty";
+import { WizardComponent } from './statements/wizard/wizard.component';
+import {NzModalModule} from "ng-zorro-antd/modal";
 
 registerLocaleData(en);
 
@@ -45,7 +47,8 @@ registerLocaleData(en);
     StatementComponent,
     DashboardComponent,
     AccountComponent,
-    AboutComponent
+    AboutComponent,
+    WizardComponent
   ],
   imports: [
     BrowserModule,
@@ -66,7 +69,8 @@ registerLocaleData(en);
     NzBadgeModule,
     NzToolTipModule,
     NzIconModule,
-    NzEmptyModule
+    NzEmptyModule,
+    NzModalModule
   ],
   providers: [
     {provide: NZ_I18N, useValue: en_US },
