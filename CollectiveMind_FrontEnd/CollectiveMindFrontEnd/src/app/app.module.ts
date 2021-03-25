@@ -35,6 +35,7 @@ import {NzIconModule} from "ng-zorro-antd/icon";
 import {NzEmptyModule} from "ng-zorro-antd/empty";
 import { WizardComponent } from './statements/wizard/wizard.component';
 import {NzModalModule} from "ng-zorro-antd/modal";
+import {NzTabsModule} from "ng-zorro-antd/tabs";
 
 registerLocaleData(en);
 
@@ -70,7 +71,8 @@ registerLocaleData(en);
     NzToolTipModule,
     NzIconModule,
     NzEmptyModule,
-    NzModalModule
+    NzModalModule,
+    NzTabsModule
   ],
   providers: [
     {provide: NZ_I18N, useValue: en_US },

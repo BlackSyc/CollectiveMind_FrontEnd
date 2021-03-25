@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {IStatement, StatementClient} from "../../collective-mind-api-clients";
+import { StatementClient} from "../../collective-mind-api-clients";
+import {StatementNode} from "../statement/statement-node";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'statement-search',
@@ -9,9 +11,10 @@ import {IStatement, StatementClient} from "../../collective-mind-api-clients";
 export class SearchComponent implements OnInit {
 
   public searchFilter?:string;
-  searchResult: IStatement[] = [];
+  searchResult: StatementNode[] = [];
 
-  constructor(private statementClient:StatementClient) { }
+  constructor(private statementClient: StatementClient,
+              private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -22,11 +25,15 @@ export class SearchComponent implements OnInit {
     }
     this.statementClient.search(this.searchFilter, 0, 100)
       .subscribe(x => {
-        this.searchResult = x;
+        this.searchResult = x.map(s => new StatementNode(s));
     })
   }
 
   clearResults() {
     this.searchResult = [];
+  }
+
+  openStatement(statementNode: StatementNode) {
+    this.router.navigate(["/statement", statementNode.id]);
   }
 }

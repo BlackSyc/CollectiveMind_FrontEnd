@@ -1,23 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import {IStatement, NegativeClient, PositiveClient, StatementClient} from "../../collective-mind-api-clients";
+import { Component } from '@angular/core';
+import { NegativeClient, PositiveClient, StatementClient} from "../../collective-mind-api-clients";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NzModalService} from "ng-zorro-antd/modal";
 import {WizardComponent} from "../wizard/wizard.component";
+import {StatementNode} from "./statement-node";
 
 @Component({
   selector: 'app-statement',
   templateUrl: './statement.component.html',
   styleUrls: ['./statement.component.scss']
 })
-export class StatementComponent implements OnInit {
+export class StatementComponent {
 
-  statement?: IStatement;
-  positiveArguments: IStatement[] = [];
-  negativeArguments: IStatement[] = [];
-
-  statementHistory: string[] = [];
-
-  statementId?: string;
+  statement: StatementNode | undefined;
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
@@ -26,31 +21,38 @@ export class StatementComponent implements OnInit {
               private positiveArgumentsClient: PositiveClient,
               private modalService: NzModalService) {
 
-    this.activatedRoute.params.subscribe(x => this.refresh(x.id))
+    this.statementClient
+      .get(this.activatedRoute.snapshot.params.id)
+      .subscribe(x => this.select(new StatementNode(x)));
   }
 
-  ngOnInit(): void {
-  }
+  select(statement: StatementNode, saveNavigation: boolean = true){
+    if(saveNavigation) {
+      statement.lastNavigation = this.statement;
+    }
 
-  refresh(newStatementId: string){
-    this.statementId = newStatementId;
-    if(!this.statementHistory.some(x => x === newStatementId)) {
-      this.statementHistory.push(newStatementId);
+    this.statement = statement;
+
+    if(this.statement.negativeArguments.length < 1){
+      this.negativeArgumentsClient
+        .get(this.statement.id)
+        .subscribe(x =>
+          statement.negativeArguments = x.map(s => new StatementNode(s)));
     }
-    if(this.statementId !== undefined && this.statementId !== null && this.statementId !== ''){
-      this.statementClient.get(this.statementId).subscribe(x => this.statement = x);
-      this.negativeArgumentsClient.get(this.statementId).subscribe(x => this.negativeArguments = x);
-      this.positiveArgumentsClient.get(this.statementId).subscribe(x => this.positiveArguments = x);
+
+    if(this.statement.positiveArguments.length < 1){
+      this.positiveArgumentsClient
+        .get(this.statement.id)
+        .subscribe(x =>
+          statement.positiveArguments = x.map(s => new StatementNode(s)));
     }
+
+    this.router.navigate(["/statement", statement.id])
   }
 
   goToLastStatement(){
-    const currentStatementId = this.statementHistory.pop();
-    const lastStatementId = this.statementHistory.pop();
-
-    if(lastStatementId !== undefined && lastStatementId !== null)
-    {
-      this.router.navigate(["/statement", lastStatementId])
+    if(this.statement?.lastNavigation) {
+      this.select(this.statement?.lastNavigation, false);
     }
   }
 
@@ -62,7 +64,7 @@ export class StatementComponent implements OnInit {
       nzContent: WizardComponent,
       nzComponentParams: { },
       nzOnOk: (x) => {
-        this.positiveArguments.unshift(x.getStatement());
+        this.statement?.positiveArguments.unshift(new StatementNode(x.getStatement()));
       },
     });
   }
@@ -75,7 +77,7 @@ export class StatementComponent implements OnInit {
       nzContent: WizardComponent,
       nzComponentParams: { },
       nzOnOk: (x) => {
-        this.negativeArguments.unshift(x.getStatement());
+        this.statement?.negativeArguments.unshift(new StatementNode(x.getStatement()));
       }
     });
   }
