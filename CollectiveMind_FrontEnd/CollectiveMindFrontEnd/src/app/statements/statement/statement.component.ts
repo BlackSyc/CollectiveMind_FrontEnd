@@ -1,5 +1,11 @@
 import { Component } from '@angular/core';
-import { NegativeClient, PositiveClient, StatementClient} from "../../collective-mind-api-clients";
+import {
+  NegativeClient,
+  PositiveClient,
+  Statement,
+  StatementClient,
+  StatementParameters
+} from "../../collective-mind-api-clients";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NzModalService} from "ng-zorro-antd/modal";
 import {WizardComponent} from "../wizard/wizard.component";
@@ -64,7 +70,14 @@ export class StatementComponent {
       nzContent: WizardComponent,
       nzComponentParams: { },
       nzOnOk: (x) => {
-        this.statement?.positiveArguments.unshift(new StatementNode(x.getStatement()));
+        const statementParameters = x.getStatementParameters();
+        if(statementParameters){
+          this.positiveArgumentsClient.create(this.statement!.id, statementParameters)
+            .subscribe(x => this.statement?.positiveArguments.unshift(new StatementNode(x)));
+        }
+        else{
+          Promise.reject("Input was not valid.");
+        }
       },
     });
   }
@@ -77,7 +90,14 @@ export class StatementComponent {
       nzContent: WizardComponent,
       nzComponentParams: { },
       nzOnOk: (x) => {
-        this.statement?.negativeArguments.unshift(new StatementNode(x.getStatement()));
+        const statementParameters = x.getStatementParameters();
+        if(statementParameters){
+          this.negativeArgumentsClient.create(this.statement!.id, statementParameters)
+            .subscribe(x => this.statement?.negativeArguments.unshift(new StatementNode(x)));
+        }
+        else{
+          Promise.reject("Input was not valid.");
+        }
       }
     });
   }

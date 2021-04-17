@@ -96,7 +96,7 @@ export class NegativeClient {
    * @param body (optional)
    * @return Success
    */
-  create(statementId: string, body: Statement | undefined): Observable<Statement> {
+  create(statementId: string, body: StatementParameters | undefined): Observable<Statement> {
     let url_ = this.baseUrl + "/Statement/{statementId}/Negative";
     if (statementId === undefined || statementId === null)
       throw new Error("The parameter 'statementId' must be defined.");
@@ -315,7 +315,7 @@ export class PositiveClient {
    * @param body (optional)
    * @return Success
    */
-  create(statementId: string, body: Statement | undefined): Observable<Statement> {
+  create(statementId: string, body: StatementParameters | undefined): Observable<Statement> {
     let url_ = this.baseUrl + "/Statement/{statementId}/Positive";
     if (statementId === undefined || statementId === null)
       throw new Error("The parameter 'statementId' must be defined.");
@@ -605,7 +605,7 @@ export class StatementClient {
    * @param body (optional)
    * @return Success
    */
-  post(body: Statement | undefined): Observable<Statement> {
+  post(body: StatementParameters | undefined): Observable<Statement> {
     let url_ = this.baseUrl + "/Statement";
     url_ = url_.replace(/[?&]$/, "");
 
@@ -759,6 +759,46 @@ export interface IProblemDetails {
   status: number | null;
   detail: string | null;
   instance: string | null;
+}
+
+export class StatementParameters implements IStatementParameters {
+  title!: string | null;
+  body!: string | null;
+
+  constructor(data?: IStatementParameters) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property))
+          (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any) {
+    if (_data) {
+      this.title = _data["title"] !== undefined ? _data["title"] : <any>null;
+      this.body = _data["body"] !== undefined ? _data["body"] : <any>null;
+    }
+  }
+
+  static fromJS(data: any): StatementParameters {
+    data = typeof data === 'object' ? data : {};
+    let result = new StatementParameters();
+    result.init(data);
+    return result;
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data["title"] = this.title !== undefined ? this.title : <any>null;
+    data["body"] = this.body !== undefined ? this.body : <any>null;
+    return data;
+  }
+}
+
+export interface IStatementParameters {
+  title: string | null;
+  body: string | null;
 }
 
 export class ApiException extends Error {
