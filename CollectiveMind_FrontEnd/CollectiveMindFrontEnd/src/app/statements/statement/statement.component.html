@@ -1,0 +1,41 @@
+<div style="height: 100%; width: 100%; background: rgba(255, 255, 255, 0.05); padding: 24px;">
+<div nz-row style="width: 100%" nzJustify="center" nzAlign="top">
+  <h1>Statement</h1>
+</div>
+
+<div nz-row style="width: 100%;" nzJustify="center" nzAlign="top">
+  <nz-card nz-col *ngIf="statement && statement.title !== null" [nzTitle]="statement.title" class="result-item" [nzExtra]="extraTemplate">
+    <button *ngIf="statement.lastNavigation" nz-tooltip="Go up one level" nz-button nzType="default" nzSize="large" style="margin-left: -50px; position: absolute; top: 0; left: 0" (click)="goToLastStatement()"><i nz-icon nzType="arrow-up" nzTheme="outline"></i></button>
+    <p>{{statement.body}}</p>
+  </nz-card>
+</div>
+
+<div nz-row style="width: 100%; margin-top: 40px; margin-bottom: 40px" nzJustify="space-around" nzAlign="top">
+  <div nz-col><i nz-icon nzType="arrow-down" nzTheme="outline" style="font-size: 50px; color: #a61d24;"></i></div>
+  <div nz-col><i nz-icon nzType="arrow-down" nzTheme="outline" style="font-size: 50px; color: #90ee90cc;"></i></div>
+</div>
+
+<!--<div style="width: 100%; height: 100%; background-color: lightgreen; opacity: .5">-->
+<!--  <p>hoi</p>-->
+<!--</div>-->
+
+<div nz-row style="width: 100%; height: 200px;" nzJustify="space-around" nzAlign="top">
+  <nz-col nzSpan="10">
+    <button nz-tooltip="Add statement" nz-button nzType="default" nzSize="large" style="margin-left: -50px; position: absolute; top: 0; left: 0" (click)="createNegativeArgument()"><i nz-icon nzType="plus" nzTheme="outline"></i></button>
+    <statement-list title="Negative Arguments" *ngIf="statement" [items]="statement.negativeArguments" (onSelect)="select($event)"></statement-list>
+  </nz-col>
+
+  <nz-col nzSpan="10">
+    <button nz-tooltip="Add statement" nz-button nzType="default" nzSize="large" style="margin-left: -50px; position: absolute; top: 0; left: 0" (click)="createPositiveArgument()"><i nz-icon nzType="plus" nzTheme="outline"></i></button>
+    <statement-list title="Positive Arguments" *ngIf="statement" [items]="statement.positiveArguments" (onSelect)="select($event)"></statement-list>
+  </nz-col>
+</div>
+
+</div>
+
+
+
+<ng-template #extraTemplate>
+  <nz-badge nzStandalone [nzCount]="25" nz-tooltip nzTooltipTitle="25 negative arguments"></nz-badge>
+  <nz-badge nzStandalone [nzCount]="150" [nzStyle]="{ backgroundColor: '#90ee90cc' }" nz-tooltip nzTooltipTitle="150 positive arguments"></nz-badge>
+</ng-template>

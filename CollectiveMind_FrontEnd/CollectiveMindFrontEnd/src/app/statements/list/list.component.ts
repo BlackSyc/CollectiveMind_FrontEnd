@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {StatementNode} from "../statement/statement-node";
 
 @Component({
   selector: 'statement-list',
@@ -7,11 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListComponent implements OnInit {
 
-  public items:string[] = [];
+  @Input() items:StatementNode[] = [];
+  @Output() onCreateNew: EventEmitter<void> = new EventEmitter<void>();
+  @Output() onSelect: EventEmitter<StatementNode> = new EventEmitter<StatementNode>();
+  @Input() title?: string;
+
   constructor() { }
 
   ngOnInit(): void {
-    this.items = ["truus", "jantje", "enzo"];
   }
 
 }

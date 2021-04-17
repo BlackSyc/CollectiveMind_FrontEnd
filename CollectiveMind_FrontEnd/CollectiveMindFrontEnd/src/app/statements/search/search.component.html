@@ -1,11 +1,28 @@
-<nz-input-group nzSearch nzSize="large" [nzAddOnAfter]="suffixButton" class="inputField">
-    <input type="text" nz-input placeholder="Find a statement by typing keywords here..." />
-</nz-input-group>
-<ng-template #suffixButton>
-  <button nz-button nzType="primary" nzSize="large" nzSearch>Search</button>
-</ng-template>
+<div class="search-container">
 
-<nz-divider></nz-divider>
+  <div nz-row style="width: 100%" nzJustify="center" nzAlign="top">
+    <h1>Statements</h1>
+  </div>
 
-<statement-list>
-</statement-list>
+  <div nz-row style="width: 100%" nzJustify="center" nzAlign="top">
+    <nz-input-group nz-col nzSpan="8" nzSearch nzSize="large" [nzAddOnAfter]="suffixButton">
+        <input type="text" nz-input placeholder="Find a statement by typing keywords here..." [(ngModel)]="searchFilter" (keyup.enter)="searchStatements()" (ngModelChange)="clearResults()"/>
+    </nz-input-group>
+    <ng-template #suffixButton>
+      <button nz-button nzType="primary" nzSize="large" nzSearch (click)="searchStatements()">Search</button>
+    </ng-template>
+  </div>
+
+  <div nz-row style="width: 100%" nzJustify="center" nzAlign="top">
+    <nz-col nzSpan="10">
+      <nz-divider></nz-divider>
+    </nz-col>
+  </div>
+
+  <div nz-row style="width: 100%; height: 100%;" nzJustify="center" nzAlign="top">
+    <nz-col nzSpan="10" style="height: 100%;">
+      <statement-list [items]="searchResult" style="height: 100%" (onSelect)="openStatement($event)">
+      </statement-list>
+    </nz-col>
+  </div>
+</div>
